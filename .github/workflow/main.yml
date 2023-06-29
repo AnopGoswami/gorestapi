@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check if Docker is installed
+      - name: Check if Docker is installed or not
         id: check_docker
         run: docker --version || echo 'Docker is not installed.'
 
