@@ -1,0 +1,30 @@
+name: Run Docker Container
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    name: Run Container
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check if Docker is installed
+        id: check_docker
+        run: docker --version || echo 'Docker is not installed.'
+
+      - name: Install Docker
+        if: steps.check_docker.outputs.stdout == 'Docker is not installed.'
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker.io
+
+      - name: Run Docker container
+        run: |
+          docker pull myapp-image
+          docker run -d --name myapp-container -p 8000:8000 myapp-image
